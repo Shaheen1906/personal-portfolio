@@ -1,0 +1,18 @@
+{% extends "base.html" %}
+{% block title %}{{ blog.title }}{% endblock %}
+{% block content %}
+<div class="container py-5">
+    <a href="{% url 'blog_list' %}" class="btn btn-outline-secondary mt-3">← Back to Blog</a>
+    <br> <br>
+    <h2 class="section-title">{{ blog.title }}</h2>
+    <p><small class="text-muted">By {{ blog.author }} | {{ blog.published_date|date:"F d, Y" }}</small></p>
+    {% if blog.image %}
+    <img src="{{ blog.image.url }}" class="img-fluid mb-4" alt="{{ blog.title }}">
+    {% endif %}
+    <div class="blog-content">
+    {{ blog.content|safe }}
+    </div>
+
+    <a href="{% url 'blog_list' %}" class="btn btn-outline-secondary mt-3">← Back to Blog</a>
+</div>
+{% endblock %}

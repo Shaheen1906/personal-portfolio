@@ -1,0 +1,297 @@
+{% extends 'base.html' %}
+
+{% load static %}
+
+{% block title %}Full Stack Developer Portfolio{% endblock %}
+
+{% block content %}
+
+    <section id="home" class="hero-section" {% if banner.image %} style="background-image: url('{{ banner.image.url }}');" {% else %}style="background-color: #bdbbb7;" {% endif %}>
+
+        <div class="hero-overlay"></div>
+        <div class="container hero-content">
+            <h1 class="display-3 fw-bold">{{ banner.title}}</h1>
+            <p class="lead mt-3">{{ banner.subtitle}}</p>
+            {% if personal_info.email %}
+            <a href="#contact" class="btn btn-primary btn-lg mt-4"> Get in Touch</a>
+            {% endif %}
+            
+        </div>
+    </section>
+
+    <section id="about" class="py-5">
+        <div class="container">
+            <h2 class="section-title"> About Me</h2>
+            <div class="row align-items-center">
+                <div class="col-md-4 mb-4 mb-md-0 text-center">
+                    {% if about.image %}
+                    <img src="{{ about.image.url }}" alt="Profile Picture" class="img-fluid about-img">
+                    {% else %}
+                    <img src="https://microbiology.ucr.edu/sites/default/files/styles/form_preview/public/blank-profile-pic.png?itok=4teBBoet" alt="Placeholder Picture" class="img-fluid about-img">
+                    {% endif %}
+                </div>
+
+                <div class="col-md-8">
+                    {% if about %}
+                    <p class="lead" style="text-align: justify;">{{ about.description}}</p>
+                    {% else %}
+                    <p class="lead">I am a dedicated full-stack developer with a strong foundation in both front-end and back-end technologies.</p>
+                    {% endif %}
+
+                    {% if resume_files %}
+                    <a href="{{ resume_files.file.url}}" target="_blank" download class="btn btn-primary mt-3"> Download Resume</a>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="skills" class="bg-light py-5">
+        <div class="container">
+            <h2 class="section-title"> My Skills </h2>
+            <br>
+            <div class="row">
+            {% for category_name, skills_list in grouped_skills %}
+            <div class="col-md-6 col-lg-4 mb-4">
+                <div class="card h-100">
+                    <div class="card-body">
+                        <h4 class="card-title text-primary">
+                            {{category_name}}
+                        </h4>
+                        {% for skill in skills_list %}
+                        <div class="skill-list">
+                            <h6 class="mb-1"> {{ skill.name }}</h6>
+                            <div class="progress" style="height: 20px;">
+                                <div class="progress-bar" role="progressbar" style="width: {{ skill.proficiency }}%;" aria-valuenow="{{ skill.proficiency }}" aria-valuemin="0" aria-valuemax="100"> {{ skill.proficiency }}%
+                                </div>
+                            </div>
+                        </div>
+                        {% endfor %}
+
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+            </div>
+    </section>
+
+    <section id="projects" class="py-5">
+        <div class="container">
+            <h2 class="section-title"> My Projects</h2>
+            <br>
+
+            {% if projects %}
+            <div class="row">
+                {% for project in projects %}
+                <div class="col-md-6 col-lg-4 mb-4" >
+                    <div class="card h-100">
+                        {% if project.image %}
+                        <img src="{{ project.image.url }}" class="card-img-top project-img" alt="{{ project.title }}">
+
+                        {% else %}
+                        <img src="https://developers.elementor.com/docs/assets/img/elementor-placeholder-image.png" class="card-img-top project-img" alt="placeholder image">
+                        
+                        {% endif %}
+
+                        <div class="card-body d-flex flex-column">
+                            <h5 class="card-title">{{ project.title }}</h5>
+
+                            <p class="card-text">{{ project.description }}</p>
+
+                            <p class="card-text"><small class="text-muted"> Technologies: {{ project.technologies}}</small></p>
+
+                            <div class="mt-auto">
+                                {% if project.github_link %}
+                                <a href="{{ project.github_link}}" target="_blank" class="btn btn-outline-primary btn-sm me-2">Github  <i class="fab fa-github"></i></a>
+                                {% endif %}
+
+                                {% if project.live_link %}
+                                <a href="{{ project.live_link}}" target="_blank" class="btn btn-primary btn-sm">Live Demo  <i class="fa-solid fa-up-right-from-square"></i> </i></a>
+                                {% endif %}
+
+                            </div>
+
+                        </div>
+                    </div>
+
+                </div>
+                {% endfor %}
+
+            </div>
+            {% endif %}
+
+        </div>
+
+    </section>
+
+    <section id="experience" class="py-5">
+        <div class="container">
+            <h2 class="section-title"> Experience </h2>
+            <br>
+            {% if experience %}
+            <div class="row">
+
+                {% for exp in experience %}
+                <div class="col-md-6 col-lg-4 mb-4" >
+                    <div class="card h-100">
+                        <div class="card-body">
+                            <h4 class="card-title text-primary"> {{ exp.job_title}}</h4>
+
+                            <h5 class="card-subtitle mb-2 text-muted"> {{ exp.company_name }}</h5>
+
+                            <p class="card-text">
+                                <small class="text-muted">
+                                    {{ exp.start_date|date:"F Y"}} -
+
+                                    {% if exp.end_date %} {{ exp.end_date|date:"F Y"}} {% else %} Present {% endif %}
+
+                                </small>
+                            </p>
+
+                            <p class="card-text">{{ exp.description }}</p>
+
+
+                        </div>
+
+                    </div>
+                
+                </div>
+                {% endfor %}
+
+            {% endif %}
+
+            </div>
+
+
+        </div>
+
+    </section>
+
+
+    <section id="services" class="py-5">
+            <div class="container">
+                <h2 class="section-title"> My Services </h2>
+                <br>
+                {% if services %}
+                <div class="row text-center">
+    
+                    {% for service in services %}
+                    <div class="col-md-4 mb-4" >
+                        <div class="card h-100 p-4">
+                            <div class="card-body">
+                               {% if service.icon %}
+                               <i class="{{ service.icon }} service-icon"></i>
+
+                               {% else %}
+                               <i class="fa-solid fa-laptop-code service-icon"></i>
+                               {% endif %}
+
+                               <h4 class="card-title mt-3">
+                                {{service.title}}
+
+                               </h4>
+                               <p class="card-text">
+                                {{ service.description}}
+
+                               </p>
+    
+    
+                            </div>
+    
+                        </div>
+                    
+                    </div>
+                    {% endfor %}
+    
+                {% endif %}
+    
+                </div>
+    
+    
+            </div>
+    
+    </section>
+
+    <section id="blog" class="bg-light py-5">
+    <div class="container py-5">
+    <h2 class="section-title">All Blog Posts</h2>
+    <div class="row">
+        {% for blog in blogs %}
+        <div class="col-md-6 col-lg-4 mb-4">
+            <div class="card h-100">
+                {% if blog.image %}
+                <img src="{{ blog.image.url }}" class="card-img-top" alt="{{ blog.title }}">
+                {% endif %}
+                <div class="card-body d-flex flex-column">
+                    <h5>{{ blog.title }}</h5>
+                    <p><small class="text-muted">By {{ blog.author }} | {{ blog.published_date|date:"F d, Y" }}</small></p>
+                    <p>{{ blog.summary|truncatechars:100 }}</p>
+                    <div class="mt-auto">
+                        <a href="{% url 'blog_detail' blog.slug %}" class="btn btn-sm btn-primary">Read More</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+    <div class="text-center mt-4">
+        <a href="{% url 'blog_list' %}" class="btn btn-outline-primary">View All Blogs</a>
+    </div>
+</div>
+</section>
+
+    <section id="contact" class="py-5">
+            <div class="container">
+                <h2 class="section-title">Contact Me</h2>
+                <div class="row justify-content-center">
+                    <div class="col-lg-8">
+                        <div class="card p-4 contact-form">
+                            <div class="card-body">
+                                {% if messages %}
+                                      <div>
+                                        {% for message in messages %}
+                                          <div class="alert alert-{{ message.tags }} alert-dismissible fade show" role="alert">
+                                            {{ message }}
+                                            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                                          </div>
+                                        {% endfor %}
+                                      </div>
+                                    {% endif %}
+                                <form action="{% url 'home' %}" method="post">
+                                    {% csrf_token %}
+                                    <div class="mb-3">
+                                        <label for="name" class="form-label">Name</label>
+                                        <input type="text" class="form-control" id="name" name="name" required>
+                                    </div>
+                                    <div class="mb-3">
+                                        <label for="email" class="form-label">Email address</label>
+                                        <input type="email" class="form-control" id="email" name="email" required>
+                                    </div>
+                                    <div class="mb-3">
+                                        <label for="subject" class="form-label">Subject (Optional)</label>
+                                        <input type="text" class="form-control" id="subject" name="subject">
+                                    </div>
+                                    <div class="mb-3">
+                                        <label for="message" class="form-label">Message</label>
+                                        <textarea class="form-control" id="message" name="message" rows="5" required></textarea>
+                                    </div>
+                                    <button type="submit" class="btn btn-primary">Send Message</button>
+                                    
+                                </form>
+                            </div>
+                        </div>
+                        <div class="text-center mt-4">
+                            {% if personal_info.email %}
+                            <p>Email: <a href="mailto:{{ personal_info.email }}">{{ personal_info.email }}</a></p>
+                            <p>Phone: {{ personal_info.phone_number }}</p>
+                            <p>Location: {{ personal_info.location }}</p>
+                            {% endif %}
+                            
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+
+{% endblock %}
