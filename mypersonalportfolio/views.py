@@ -15,7 +15,7 @@ def portfolio_index(request):
     if request.method == 'POST':
         if form.is_valid():
             form.save()
-            messages.success(request, "Your Details have been sent successfully!")
+            messages.success(request, "Your Details have been sent successfully! Thank you for reaching out.")
             return HttpResponseRedirect(reverse('home') + '#contact') 
         else:
             messages.error(request, "Please correct the errors below.")
